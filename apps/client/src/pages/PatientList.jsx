@@ -2,13 +2,13 @@ import React from "react";
 import Nav from "../components/Nav";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import data from "./data.json";
+import mockdata from "./data.json";
 import ReadRow from "../components/ReadRow";
 import EditRow from "../components/EditRow";
 
 function PatientList({ isAuth }) {
   const navigate = useNavigate();
-  const [contacts, setContacts] = useState(data);
+  const [contacts, setContacts] = useState(mockdata);
   const [isTestChanged, setIsTestChanged] = useState(false);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
   const [editContactId, setEditContactId] = useState(2)

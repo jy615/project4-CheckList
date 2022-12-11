@@ -3,7 +3,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function EditRow({ data, editFormData, handleEditFormChange, handleEditFormSubmit}) {
+function EditRow({ contact, editFormData, handleEditFormChange, handleEditFormSubmit}) {
   const [calenderdate, setCalenderDate] = useState();
   const handleUpdatedData = (e) => {
     e.preventDefault();
@@ -14,10 +14,10 @@ function EditRow({ data, editFormData, handleEditFormChange, handleEditFormSubmi
   return (
 
     <tr>
-      <td className="px-6 py-4 text-sm text-gray-500">{data.id}</td>
-      <td className="px-6 py-4 text-sm text-gray-500">{data.name}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.id}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.name}</td>
       <td className="px-6 py-4">
-        <div className="text-sm text-gray-500">{data.ic}</div>
+        <div className="text-sm text-gray-500">{contact.ic}</div>
       </td>
       <td className="px-6 py-4 text-m text-black-500">
         <DatePicker
@@ -70,7 +70,7 @@ function EditRow({ data, editFormData, handleEditFormChange, handleEditFormSubmi
         </select>
       </td>
       <td className="px-6 py-4 text-sm text-gray-500">
-        {data.procedureStatus}
+        {contact.procedureStatus}
       </td>
       <td className="px-6 py-4">
         <button

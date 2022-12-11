@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import data from "../pages/data.json"
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function BasicCheckList() {
-  const [ischecked, setIsChecked] = useState(false);
   const [isExerciseTest, setIsExerciseTest] = useState(false);
   const [isDobutamineTest, setIsDobutamineTest] = useState(true);
-  const handleCheck = () => {
-    setIsChecked(!ischecked);
-  };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,6 +16,11 @@ function BasicCheckList() {
     let logInData = Object.fromEntries(formData.entries());
     let allDataCorrect = false;
     console.log(logInData);
+    toast.warn("Hello",{
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: false,
+      transition: Zoom
+    });
   }
   return (
     <>
@@ -350,11 +356,12 @@ function BasicCheckList() {
           />
           
         </div>
-        <div className="absolute right-0 -mt-10 float-right bg-blue-400  hover:bg-blue-700 text-white font-bold py-3 px-12 rounded-full" >
+        <div className="absolute right-20 -mt-12 float-right bg-blue-400  hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-full" >
             <button onSubmit={handleSubmit}>Confirm </button>
           </div>
           </div>
       </form>
+      <ToastContainer />
     </>
   )
 }
