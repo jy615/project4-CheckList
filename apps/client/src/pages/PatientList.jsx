@@ -8,34 +8,59 @@ import EditRow from "../components/EditRow";
 
 function PatientList({ isAuth }) {
   const navigate = useNavigate();
-  const [patientdata, setPatientData] = useState(data);
+  const [contacts, setContacts] = useState(data);
   const [isTestChanged, setIsTestChanged] = useState(false);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
-  const [editData, setEditData] = useState(data);
+  const [editContactId, setEditContactId] = useState(2)
+
   const [editFormData, setEditFormData] = useState({
+    id:"",
+    name: "",
+    ic: "",
     date: "",
     time: "",
     procedere: "",
   });
-  const handleEditFormData = (event) => {
+  const handleEditFormChange = (event) => {
     event.preventDefault();
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
-    const newFormData = { ...editData };
+    
+    const newFormData = { ...editFormData};
+    console.log(newFormData)
     newFormData[fieldName] = fieldValue;
     setEditFormData[newFormData];
   };
-  const handleUpdate = (event, data) => {
+  const handleEditClick = (event, contact) => {
     event.preventDefault();
-    setEditData(data);
-    console.log(data.date);
-    const dataValue = {
-      date: data.date,
-      time: data.time,
-      procedere: data.procedure,
+   setEditContactId(contact.id)
+    console.log(contact.id);
+    const formValues = {
+      date : contact.date,
+      time : contact.time,
+      procedure : contact.procedure,
     };
-    setEditFormData(dataValue);
+    setEditFormData(formValues);
   };
+  const handleEditFormSubmit = (event, contact) => {
+    event.preventDefault();
+    const editedContact = {
+      id: contact.id,
+      name: contact.name,
+      ic: contact.ic,
+      date: editFormData.date,
+      time: editFormData.time,
+      procedure: editFormData.procedure,
+      procedureStatus: contact.procedureStatus
+    }
+  
+  const newContacts = [...contacts];
+  const index = contacts.findIndex((contact)=> contact.id === editFormData.id)
+  newContacts[index] = editedContact
+  setContacts(newContacts)
+  console.log(newContacts)
+  
+  }
   const handleCancelTest = () => {
     console.log("test cancelled");
   };
@@ -49,7 +74,7 @@ function PatientList({ isAuth }) {
         <p>Today's Appointment</p>
       </div>
 
-      <form>
+      <form onSubmit={handleEditFormSubmit}>
         <div className="container flex justify-evenly mx-auto">
           <div className="flex flex-col">
             <div className="w-full">
@@ -76,16 +101,17 @@ function PatientList({ isAuth }) {
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {patientdata.map((data) => (
+                    {contacts.map((contact) => (
                       <>
-                        {editData.id === data.id ? (
+                        {editContactId === contact.id ? (
                           <EditRow
-                            data={data}
+                            contact={contact}
                             editFormData={editFormData}
-                            handleEditFormData={handleEditFormData}
+                            handleEditFormChange={handleEditFormChange}
+                            handleEditFormSubmit={handleEditFormSubmit}
                           />
                         ) : (
-                          <ReadRow data={data} handleUpdate={handleUpdate} />
+                          <ReadRow contact={contact} handleEditClick={handleEditClick} />
                         )}
                       </>
                     ))}

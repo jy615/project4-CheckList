@@ -3,7 +3,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-function EditRow({ data, editFormData, handleEditFormData }) {
+function EditRow({ data, editFormData, handleEditFormChange, handleEditFormSubmit}) {
   const [calenderdate, setCalenderDate] = useState();
   const handleUpdatedData = (e) => {
     e.preventDefault();
@@ -12,6 +12,7 @@ function EditRow({ data, editFormData, handleEditFormData }) {
   }
   console.log(calenderdate);
   return (
+
     <tr>
       <td className="px-6 py-4 text-sm text-gray-500">{data.id}</td>
       <td className="px-6 py-4 text-sm text-gray-500">{data.name}</td>
@@ -31,7 +32,7 @@ function EditRow({ data, editFormData, handleEditFormData }) {
           dateFormat="dd/MM/yyyy"
           selected={calenderdate}
           name="updateddate"
-          value={calenderdate}
+          value={editFormData.date}
           required="required"
           onChange={(e) => setCalenderDate(e)}
         />
@@ -41,29 +42,31 @@ function EditRow({ data, editFormData, handleEditFormData }) {
           id="time"
           className="px-5 py-3 text-m text-black-500"
           name="time"
+          onChange={handleEditFormChange}
         >
           <option defaultValue>Choose Time</option>
-          <option value="updatedtime">8:00 am</option>
-          <option value="updatedtime">9:00 am</option>
-          <option value="updatedtime">10:00 am</option>
-          <option value="updatedtime">11:00 am</option>
-          <option value="updatedtime">12:00 pm</option>
-          <option value="updatedtime">1:00 pm</option>
-          <option value="updatedtime">2:00 pm</option>
-          <option value="updatedtime">3:00 pm</option>
-          <option value="updatedtime">4:00 pm</option>
+          <option value={editFormData.time}>8:00 am</option>
+          <option value={editFormData.time}>9:00 am</option>
+          <option value={editFormData.time}>10:00 am</option>
+          <option value={editFormData.time}>11:00 am</option>
+          <option value={editFormData.time}>12:00 pm</option>
+          <option value={editFormData.time}>1:00 pm</option>
+          <option value={editFormData.time}>2:00 pm</option>
+          <option value={editFormData.time}>3:00 pm</option>
+          <option value={editFormData.time}>4:00 pm</option>
         </select>
       </td>
       <td>
         <select
           id="procedure"
           className="px-5 py-3 text-m text-black-500"
-          name="procedure"
+          name="updatedprocedure"
+          onChange={handleEditFormChange}
         >
           <option defaultValue>Choose Procedure</option>
-          <option value="updatedprocedure">Treadmil Stress Test</option>
-          <option value="updatedprocedure">Exercise Stress Test</option>
-          <option value="updatedprocedure">Dobutamine Stress Test</option>
+          <option value={editFormData.procedure}>Treadmil Stress Test</option>
+          <option value={editFormData.procedure}>Exercise Stress Test</option>
+          <option value={editFormData.procedure}>Dobutamine Stress Test</option>
         </select>
       </td>
       <td className="px-6 py-4 text-sm text-gray-500">
@@ -73,12 +76,12 @@ function EditRow({ data, editFormData, handleEditFormData }) {
         <button
           type="submit"
           className="px-4 py-1 text-sm text-green-600 bg-green-200 rounded-full"
-          onClick={handleUpdatedData}
         >
           Save
         </button>
       </td>
     </tr>
+   
   );
 }
 

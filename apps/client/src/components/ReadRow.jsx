@@ -1,6 +1,6 @@
 import React from "react";
 import {useNavigate} from "react-router-dom"
-function ReadRow({ data, handleUpdate }) {
+function ReadRow({ contact, handleEditClick }) {
 const navigate = useNavigate()
 
   const handleRow = () => {
@@ -12,20 +12,20 @@ const navigate = useNavigate()
       className="whitespace-nowrap hover:bg-blue-50 cursor-pointer"
     //   onClick={handleRow}
     >
-      <td className="px-6 py-4 text-sm text-gray-500">{data.id}</td>
-      <td className="px-6 py-4 text-sm text-gray-500">{data.name}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.id}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.name}</td>
       <td className="px-6 py-4">
-        <div className="text-sm text-gray-500">{data.ic}</div>
+        <div className="text-sm text-gray-500">{contact.ic}</div>
       </td>
       <td className="px-6 py-4">
-        <div className="text-sm text-gray-500">{data.date}</div>
+        <div className="text-sm text-gray-500">{contact.date}</div>
       </td>
-      <td className="px-6 py-4 text-sm text-gray-500">{data.time}</td>
-      <td className="px-6 py-4 text-sm text-gray-500">{data.procedure}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.time}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.procedure}</td>
       <td className="px-6 py-4 text-sm text-gray-500">
-        {data.procedureStatus}
+        {contact.procedureStatus}
       </td>
-      {data.procedureStatus === "" ?
+      {contact.procedureStatus === "" ?
        <td className="px-6 py-4">
 
        <button
@@ -42,7 +42,7 @@ const navigate = useNavigate()
         <button
         type= "button"
           className="px-4 py-1 text-sm text-yellow-600 bg-yellow-200 rounded-full"
-          onClick={(event)=> handleUpdate(event, data)}
+          onClick={(event)=> handleEditClick(event, contact)}
         >
           Update
         </button>

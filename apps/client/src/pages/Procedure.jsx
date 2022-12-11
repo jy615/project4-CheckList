@@ -2,22 +2,18 @@ import React from 'react'
 import BasicCheckList from '../components/BasicCheckList'
 import Nav from '../components/Nav'
 import {useState} from 'react'
-import TEECheckList from '../components/TEECheckList'
 import { useNavigate } from "react-router-dom";
 
 function Procedure({isAuth}) {
     const [showCheckList, setShowCheckList] = useState(false)
     const [isFormSubmmited, setIsFormSubmitted] = useState(false)
-    const [isTee, setIsTee] = useState(false)
     const navigate = useNavigate();
     // const data = navigate.location.state.data
     
     const handleShowchecklist = () => {
         setShowCheckList(true)
       }
-      const handleShowTEElist = () => {
-        setIsTee(true)
-      }
+      
     
   return (
 <>
@@ -106,7 +102,6 @@ function Procedure({isAuth}) {
                         </div>
                         </div>
                         {showCheckList && <BasicCheckList setShowCheckList={setShowCheckList} showCheckList={showCheckList}/> }
-                        {isTee && <TEECheckList setIsTee={setIsTee} isTee={isTee}/>}
                         </>
   )
 }

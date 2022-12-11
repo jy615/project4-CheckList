@@ -19,13 +19,14 @@ function BasicCheckList() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-start">
+        <div className="px-10 py-20">
+      <div className="container flex justify-evenly mx-auto">
           <label className="text-black-800 text-xl mt-6 font-extrabold container flex justify-evenly">
             Stress Test
           </label>
          
         </div>
-
+        
         <div className="float-left text-gray-800 text-m container flex justify-between mx-auto">
           <label>Patient 2-Identifiers (name & NRIC/FIN)</label>
           <div className="ustify-between block">
@@ -61,13 +62,13 @@ function BasicCheckList() {
           <label>Drug Allergy (if any)</label>
           <div className="block">
             <div className="mt-2">
-              <label className="inline-flex items-center">
+              <label className="float-right inline-flex items-center">
                 <input name= "drugallergy" type="radio" className="w-4 h-4 rounded"  value="yes"/>
-                <span className="ml-2">Yes</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input name= "drugallergy" type="radio" className="w-4 h-4 rounded" value="no" />
                 <span className="ml-2">No</span>
+              </label>
+              <label className="float-right inline-flex items-center">
+                <input name= "drugallergy" type="radio" className="w-4 h-4 rounded" value="no" />
+                <span className="ml-2">Yes</span>
               </label>
               <input
                 id="remarks"
@@ -86,13 +87,13 @@ function BasicCheckList() {
           <label>Hypertension</label>
           <div className="block">
             <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input name= "hypertension" type="radio" className="w-4 h-4 rounded" value="yes" />
-                <span className="ml-2">Yes</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input name= "hypertension" type="radio" className="w-4 h-4 rounded" value="no" />
+            <label className="float-right inline-flex items-center">
+                <input name= "hypertension" type="radio" className="w-4 h-4 rounded"  value="yes"/>
                 <span className="ml-2">No</span>
+              </label>
+              <label className="float-right inline-flex items-center">
+                <input name= "hypertension" type="radio" className="w-4 h-4 rounded" value="no" />
+                <span className="ml-2">Yes</span>
               </label>
               <input
                 id="remarks"
@@ -108,13 +109,13 @@ function BasicCheckList() {
           <label>Dyslipidemia</label>
           <div className="block">
             <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input name= "dyslipidemia" type="radio" className="w-4 h-4 rounded" value="yes" />
-                <span className="ml-2">Yes</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input name= "dyslipidemia" type="radio" className="w-4 h-4 rounded" value="no" />
+            <label className="float-right inline-flex items-center">
+                <input name= "dyslipidemia" type="radio" className="w-4 h-4 rounded"  value="yes"/>
                 <span className="ml-2">No</span>
+              </label>
+              <label className="float-right inline-flex items-center">
+                <input name= "dyslipidemia" type="radio" className="w-4 h-4 rounded" value="no" />
+                <span className="ml-2">Yes</span>
               </label>
               <input
                 id="remarks"
@@ -130,13 +131,13 @@ function BasicCheckList() {
           <label>Diabetes Mellitus</label>
           <div className="block">
             <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input name= "dm" type="radio" className="w-4 h-4 rounded" value="yes" />
-                <span className="ml-2">Yes</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input name= "dm" type="radio" className="w-4 h-4 rounded" value="no" />
+            <label className="float-right inline-flex items-center">
+                <input name= "diabetic" type="radio" className="w-4 h-4 rounded"  value="yes"/>
                 <span className="ml-2">No</span>
+              </label>
+              <label className="float-right inline-flex items-center">
+                <input name= "diabetic" type="radio" className="w-4 h-4 rounded" value="no" />
+                <span className="ml-2">Yes</span>
               </label>
               <input
                 id="remarks"
@@ -152,13 +153,13 @@ function BasicCheckList() {
           <label>Family History of Heart Disease?</label>
           <div className="block">
             <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input name= "familyhistory" type="radio" className="w-4 h-4 rounded" value="yes" />
-                <span className="ml-2">Yes</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input name= "familyhistory" type="radio" className="w-4 h-4 rounded" value="no" />
+            <label className="float-right inline-flex items-center">
+                <input name= "familyhistory" type="radio" className="w-4 h-4 rounded"  value="yes"/>
                 <span className="ml-2">No</span>
+              </label>
+              <label className="float-right inline-flex items-center">
+                <input name= "familyhistory" type="radio" className="w-4 h-4 rounded" value="no" />
+                <span className="ml-2">Yes</span>
               </label>
               <input
                 id="remarks"
@@ -174,13 +175,13 @@ function BasicCheckList() {
           <label>Smoker/ Ex-Smoker</label>
           <div className="block">
             <div className="mt-2">
-              <label className="inline-flex items-center">
-                <input name= "smoker" type="radio" className="w-4 h-4 rounded" value="yes"/>
-                <span className="ml-2">Yes</span>
-              </label>
-              <label className="inline-flex items-center">
-                <input name= "smoker" type="radio" className="w-4 h-4 rounded" value="no" />
+            <label className="float-right inline-flex items-center">
+                <input name= "smoker" type="radio" className="w-4 h-4 rounded"  value="yes"/>
                 <span className="ml-2">No</span>
+              </label>
+              <label className="float-right inline-flex items-center">
+                <input name= "smoker" type="radio" className="w-4 h-4 rounded" value="no" />
+                <span className="ml-2">Yes</span>
               </label>
               <input
                 id="remarks"
@@ -215,22 +216,22 @@ function BasicCheckList() {
           <>
             <div className="float-left text-gray-800 text-m container flex justify-between mx-auto">
               <label>
-                Taken Any Beta-blockers? (atenolol, bisoprolol, metoprolol etc)
+                Taken Any Beta-blockers? (atenolol, bisoprolol etc)
               </label>
               <div className="block">
                 <div className="mt-2">
-                  <label className="inline-flex items-center">
+                  <label className="float-right inline-flex items-center">
                     <input
                     name="betablockers"
                       type="radio"
                       className="w-4 h-4 rounded"
                       value="yes"
                     />
-                    <span className="ml-2">Yes</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input name="betablockers" type="radio" className="w-4 h-4 rounded" value="no"/>
                     <span className="ml-2">No</span>
+                  </label>
+                  <label className="float-right inline-flex items-center">
+                    <input name="betablockers" type="radio" className="w-4 h-4 rounded" value="no"/>
+                    <span className="ml-2">Yes</span>
                   </label>
                   <label className="inline-flex items-center">
                     <input name="betablockers" type="radio" className="w-4 h-4 rounded" value="NA" />
@@ -351,6 +352,7 @@ function BasicCheckList() {
         </div>
         <div className="absolute right-0 -mt-10 float-right bg-blue-400  hover:bg-blue-700 text-white font-bold py-3 px-12 rounded-full" >
             <button onSubmit={handleSubmit}>Confirm </button>
+          </div>
           </div>
       </form>
     </>
