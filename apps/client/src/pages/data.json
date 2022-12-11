@@ -1,14 +1,56 @@
 [
     {
         "id": 1,
-        "name": "james",
+        "name": "Jia Yi",
         "ic": "S7272727F",
         "date": "4/12/2022",
         "time": "9.00am",
-        "procedure": "treadmil stress test",
-        "procedureStatus": "proceed"
-        "action": 
+        "procedure": "Treadmil Stress Test",
+        "procedureStatus": "Completed"
+
+    },
+    {
+        "id": 2,
+        "name": "James",
+        "ic": "S1234567F",
+        "date": "4/12/2022",
+        "time": "10.00am",
+        "procedure": "Treadmil Stress Test",
+        "procedureStatus": ""
+    },
+    {
+        "id": 3,
+        "name": "Hey",
+        "ic": "S7654321F",
+        "date": "4/12/2022",
+        "time": "10.00am",
+        "procedure": "Exercise Stress Test",
+        "procedureStatus": "Cancel"
+
+
+    },
+    {
+        "id": 4,
+        "name": "Hello",
+        "ic": "S7654321F",
+        "date": "5/12/2022",
+        "time": "11.00am",
+        "procedure": "Exercise Stress Test",
+        "procedureStatus": "Reschedule"
+
+
+    },
+    {
+        "id": 5,
+        "name": "Patricia",
+        "ic": "S7654321F",
+        "date": "6/12/2022",
+        "time": "12.00pm",
+        "procedure": "Exercise Stress Test",
+        "procedureStatus": "Reschedule"
 
 
     }
+
+
 ]

@@ -111,7 +111,7 @@ function CreateProfile({isAuth}) {
         showYearDropdown
         yearDropdownItemNumber={100}
         scrollableYearDropdown
-        dateFormat="ddMMyyyy"
+        dateFormat="dd/MM/yyyy"
         selected={date} 
         name="dateofbirth"
         onChange={(date) => setDate(date)} />
