@@ -3,12 +3,15 @@ import BasicCheckList from '../components/BasicCheckList'
 import Nav from '../components/Nav'
 import {useState} from 'react'
 import { useNavigate } from "react-router-dom";
+import mockdata from "./data.json";
+import PersonalProcedure from '../components/PersonalProcedure';
+
 
 function Procedure({isAuth}) {
     const [showCheckList, setShowCheckList] = useState(false)
     const [isFormSubmmited, setIsFormSubmitted] = useState(false)
+    const [allmockdata, setAllMockData] = useState(mockdata)
     const navigate = useNavigate();
-    // const data = navigate.location.state.data
     
     const handleShowchecklist = () => {
         setShowCheckList(true)
@@ -48,54 +51,14 @@ function Procedure({isAuth}) {
                             <th className="px-6 py-2 text-xs text-gray-500">
                             Procedure Status
                             </th>
-                            {!isFormSubmmited &&
-                          <>
-                         
-                          </>
-}
+                           
+
                         </tr>
                     </thead>
+                   {allmockdata.map((contact => (
+                    <PersonalProcedure contact={contact} handleShowchecklist={handleShowchecklist}/>
+                   )))}
                    
-                    <tbody className="bg-white">
-                        <tr className="whitespace-nowrap">
-                            <td className="px-6 py-4 text-sm text-gray-500">
-                                Lee Jia Yi
-                            </td>
-                            <td className="px-6 py-4">
-                                <div className="text-sm text-gray-900">
-                                    4/12/2022
-                                </div>
-                            </td>
-                            <td className="px-6 py-4">
-                                <div className="text-sm text-gray-500">
-                                 9.00am
-                                  </div>
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-500">
-                            Treadmill Stress Test
-                            </td>
-                          {!isFormSubmmited ? 
-                          <>
-                           <td className="px-6 py-4">
-                                <button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full" onClick={handleShowchecklist}>Create</button>
-                            </td>
-                            <td className="px-6 py-4">   
-                            </td>
-                            
-                            </>
-                            :
-                            <>
-                            <td className="px-6 py-4">
-                                <button className="px-4 py-1 text-sm text-blue-600 bg-blue-200 rounded-full" onClick={handleShowchecklist}>Update</button>
-                            </td>
-                            <td className="px-6 py-4 text-sm text-gray-500">
-                            Proceed
-                            </td> 
-                            </> }
-                           
-                         
-                        </tr>
-                        </tbody>
                         </table>
                         </div>
                         </div>

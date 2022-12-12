@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import data from "../pages/data.json"
+import mockdata from "../pages/data.json"
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,6 +16,7 @@ function BasicCheckList() {
     let logInData = Object.fromEntries(formData.entries());
     let allDataCorrect = false;
     console.log(logInData);
+
     toast.warn("Hello",{
       position: toast.POSITION.TOP_CENTER,
       autoClose: false,
@@ -28,7 +29,7 @@ function BasicCheckList() {
         <div className="px-10 py-20">
       <div className="container flex justify-evenly mx-auto">
           <label className="text-black-800 text-xl mt-6 font-extrabold container flex justify-evenly">
-            Stress Test
+            {mockdata.procedure}
           </label>
          
         </div>
