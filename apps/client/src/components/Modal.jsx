@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {TokenService} from "jsonwebtoken"
+import axios from 'axios';
+
 
 function Modal({ setShowModal, isSignUp }) {
   const [email, setEmail] = useState("");
@@ -15,32 +18,42 @@ function Modal({ setShowModal, isSignUp }) {
     setShowModal(false);
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
-
+    
     let formData = new FormData(e.target);
     let logInData = Object.fromEntries(formData.entries());
-    let allDataCorrect = false;
-    console.log(logInData);
-    try {
-      if (
-        logInData.email == "" ||
-        logInData.password == "" ||
-        logInData.confirmpassword == ""
-      ) {
-        setError("Please Fill Up Accordingly");
-        return;
-      } else if (isSignUp && logInData.password !== logInData.confirmpassword)
-        setError("Password Not Match");
-      else {
-        allDataCorrect = true;
-        console.log("Account created successfully");
-        navigate("/createProfile");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+    console.log(logInData)
+     fetch("http://127.0.0.1:8000/api/users/", {
+      method: "POST",
+      headers: {
+        "Accept":"application/json",
+        "Content-type": "application/json" 
+    },
+    body: JSON.stringify(logInData)})
+    
+    .then((response)=> {
+      return response.json();
+    setError(false) 
+    }).catch((error) => {
+      setError(true)
+            if (error.response) {
+              console.log(error.response);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+              }})
+    e.preventDefault();
+    if (error === false) {
+      toast.success("Profile Created Successfully",{
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: true,
+      transition: Zoom
+    })} else {
+      toast.warn("Please Fill Up All Details",{
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: true,
+        transition: Zoom
+      })}
+    // setProfileData((logInData))
+     }
   return (
     <div>
       <form onSubmit={handleSubmit}>

@@ -1,11 +1,15 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-
-from .models import Patients
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import status, permissions
+from django.shortcuts import  render, redirect
+from .createacc import NewUserForm
+from django.contrib.auth import login
+from django.contrib import messages
+from .models import Patients, Users
 from .serializers import *
 
 @api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
 def patients_list(request):
     if request.method == 'GET':
         data = Patients.objects.all()
@@ -23,6 +27,7 @@ def patients_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
 def patients_detail(request, pk):
     try:
         patient = Patients.objects.get(pk=pk)
@@ -45,6 +50,7 @@ def patients_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 ########### users #########
 @api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
 def users_list(request):
     if request.method == 'GET':
         data = Users.objects.all()
@@ -62,6 +68,7 @@ def users_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
 def users_detail(request, pk):
     try:
         user = Users.objects.get(pk=pk)
@@ -85,6 +92,7 @@ def users_detail(request, pk):
     
 ####### forms ######
 @api_view(['GET', 'POST'])
+@permission_classes((permissions.AllowAny,))
 def forms_list(request):
     if request.method == 'GET':
         data = Forms.objects.all()
@@ -102,6 +110,7 @@ def forms_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT', 'DELETE'])
+@permission_classes((permissions.AllowAny,))
 def forms_detail(request, pk):
     try:
         form = Forms.objects.get(pk=pk)
@@ -122,4 +131,6 @@ def forms_detail(request, pk):
     elif request.method == 'DELETE':
         form.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+######## new user form ########
+
 

@@ -1,12 +1,13 @@
 import React from 'react'
 import Nav from '../components/Nav'
 import Modal from '../components/Modal'
-import {useState} from 'react'  
+import {useState, useEffect} from 'react'
 
 function Home() {
   const [showModal, setShowModal] = useState(false)
   const isAuth = false
   const [isSignUp, setIsSignUp] = useState(true)
+  
   
   const handleClick = () => {
     console.log("click")

@@ -18,6 +18,10 @@ from django.urls import path, include,re_path
 from django.conf.urls import include
 from rest_framework import routers
 from checklistapp import views
+from django.conf.urls.static import static
+from checklistproject import settings
+from rest_framework_simplejwt import views as jwt_views
+
 # create a new router
 #router = routers.DefaultRouter()
 # register our viewsets
@@ -35,4 +39,7 @@ urlpatterns = [
     re_path(r'^api/users/([0-9])$', views.users_detail),
     re_path(r'^api/forms/$', views.forms_list),
     re_path(r'^api/forms/([0-9])$', views.forms_detail),
+    re_path(r'^api/token/$', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    re_path(r'^api/token/refresh/$', jwt_views.TokenRefreshView.as_view(),  name='token_refresh')
 ]
+

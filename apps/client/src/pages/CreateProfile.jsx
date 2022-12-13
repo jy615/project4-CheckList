@@ -1,41 +1,68 @@
+import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+
 
 
 function CreateProfile({isAuth}) {
   const [date, setDate] = useState(new Date());
   const [error, setError] = useState(false)
+  const [profileData, setProfileData] = useState([])
   const navigate = useNavigate();
+  // useEffect(()=> {
+  //   getProfileData();
+  // }, [])
+
  
-  console.log(date);
+  
   const handleClick = () => {
     navigate("/");
   };
   const handleSubmit = (e) => {
-    e.preventDefault();
+    
     let formData = new FormData(e.target);
     let logInData = Object.fromEntries(formData.entries());
-    let allDataCorrect = false
-
-    try {
+    console.log(logInData)
+     fetch("http://127.0.0.1:8000/api/users/", {
+      method: "POST",
+      headers: {
+        "Accept":"application/json",
+        "Content-type": "application/json" 
+    },
+    body: JSON.stringify(logInData)})
+    
+    .then((response)=> {
+      return response.json();
+    setError(false) 
+    }).catch((error) => {
+      setError(true)
+            if (error.response) {
+              console.log(error.response);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+              }})
+    e.preventDefault();
+    if (error === false) {
+      toast.success("Profile Created Successfully",{
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: true,
+      transition: Zoom
+    })} else {
+      toast.warn("Please Fill Up All Details",{
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: true,
+        transition: Zoom
+      })}
+    // setProfileData((logInData))
+     }
+    
+    // navigate("/patientList")
         
-      if (logInData.firtname === "" || logInData.lastname === "" || logInData.dateofbirth === "" || logInData.gender === "" || logInData.aboutme === "") {
-          setError("Please Fill Up Accordingly")
-          return;
-      } else {
-          allDataCorrect = true
-          console.log("Profile created successfully")
-          navigate("/patientList")
-      }
-      
-  } catch (error) {
-      console.log(error)
-  }
-   
-  };
+  
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -71,30 +98,17 @@ function CreateProfile({isAuth}) {
           htmlFor="firstname"
           className="text-gray-800 text-xl font-bold leading-tight tracking-normal"
         >
-          First Name
+          Name
         </label>
         <input
           id="firstname"
           type="text"
           required={true}
-          name="firstname"
+          name="UserFirstName"
           className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-          placeholder="James"
+          placeholder="James Bond"
         />
-        <label
-          htmlFor="lastname"
-          className="text-gray-800 text-xl font-bold leading-tight tracking-normal"
-        >
-          Last Name
-        </label>
-        <input
-          id="lastname"
-          type="text"
-          required={true}
-          name="lastname"
-          className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-          placeholder="Bond"
-        />
+       
         <label
           htmlFor="dateofbirth"
           className="text-gray-800 text-xl font-bold leading-tight tracking-normal"
@@ -113,7 +127,7 @@ function CreateProfile({isAuth}) {
         scrollableYearDropdown
         dateFormat="dd/MM/yyyy"
         selected={date} 
-        name="dateofbirth"
+        name="UserDOB"
         onChange={(date) => setDate(date)} />
       
         <label
@@ -127,7 +141,7 @@ function CreateProfile({isAuth}) {
             <input
               type="radio"
               id="A3-yes"
-              name="specialty"
+              name="UserSpecialty"
               value="doctor"
               required="required"
               className="opacity-0 absolute h-8 w-8"
@@ -159,7 +173,7 @@ function CreateProfile({isAuth}) {
             <input
               type="radio"
               id="A3-yes"
-              name="specialty"
+              name="UserSpecialty"
               value="medtech"
               required="required"
               className="opacity-0 absolute h-8 w-8"
@@ -191,7 +205,7 @@ function CreateProfile({isAuth}) {
             <input
               type="radio"
               id="A3-yes"
-              name="specialty"
+              name="UserSpecialty"
               value="nurse"
               required="required"
               className="opacity-0 absolute h-8 w-8"
@@ -233,6 +247,7 @@ function CreateProfile({isAuth}) {
                 >
                   Cancel
                 </button>
+                <ToastContainer /> 
         </div>
         </div>
         </div>

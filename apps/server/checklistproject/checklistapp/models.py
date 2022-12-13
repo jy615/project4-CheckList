@@ -13,13 +13,15 @@ class Patients(models.Model):
         return self.PatientName
 class Users(models.Model):
     
-    UserFirstName = models.CharField(max_length=100)
-    UserLastName = models.CharField(max_length=100, default='DEFAULT VALUE')
+    UserName = models.CharField(max_length=100)
     UserDOB = models.CharField(max_length=100, default='DEFAULT VALUE')
     UserSpecialty = models.CharField(max_length=100, default='DEFAULT VALUE')
+    UserEmail = models.EmailField(max_length=100, default='DEFAULT VALUE')
+    UserPassword = models.CharField(max_length=50, default='DEFAULT VALUE')
+    
 
     def __str__(self):
-        return self.UserLastName
+        return self.UserName
     
 class Forms(models.Model):
     PatientName = models.ForeignKey(Patients, null=True, blank=True, on_delete=models.CASCADE)
@@ -35,8 +37,8 @@ class Forms(models.Model):
     Betablockers = models.CharField(max_length=100, default='DEFAULT VALUE')
     Asthma = models.CharField(max_length=100, default='DEFAULT VALUE')
     Glaucoma = models.CharField(max_length=100, default='DEFAULT VALUE')
-    ProcedureStatus = models.CharField(max_length=100, default='DEFAULT VALUE')
+    ProcedureStatus = models.CharField(max_length=100, default='Procedure Status')
     Remarks = models.CharField(max_length=100, default='DEFAULT VALUE')
     
     def __str__(self):
-        return self.ProcedureStatus
+        return self.PatientName
