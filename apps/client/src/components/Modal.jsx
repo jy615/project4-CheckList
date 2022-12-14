@@ -1,10 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
 
 
-function Modal({ setShowModal, isSignUp }) {
+
+function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -16,46 +18,92 @@ function Modal({ setShowModal, isSignUp }) {
   const handleClick = () => {
     setShowModal(false);
   };
-  const handleSubmit = (e) => {
-    
+  
+  const handleCreateProfile = async (e) => {
+    e.preventDefault();
+    console.log("using create button")
     let formData = new FormData(e.target);
     let logInData = Object.fromEntries(formData.entries());
     console.log(logInData)
-     fetch("http://127.0.0.1:8000/api/users/", {
-      method: "POST",
-      headers: {
-        "Accept":"application/json",
-        "Content-type": "application/json" 
-    },
-    body: JSON.stringify(logInData)})
+    if (isSignUp){
+    try {
+      const response = await fetch(
+        "http://localhost:5000/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(logInData)
+        }
+      );
+
+      const parseRes = await response.json();
+
+      if (parseRes.token) {
+        localStorage.setItem("token", parseRes.token);
+        setIsAuth(true);
+        toast.success("Log In Successfully",{
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: true,
+          transition: Zoom})
+        navigate("/patientList")
+      } else {
+        setIsAuth(false);
+        toast.error(parseRes);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+    }
+    if (!isSignUp) {
+    if(logInData.password !== logInData.confirmpassword){
+      console.log("Incorrect Password")
+      return
+    }
+   else {
     
-    .then((response)=> {
-      return response.json();
-    setError(false) 
-    }).catch((error) => {
-      setError(true)
-            if (error.response) {
-              console.log(error.response);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-              }})
-    e.preventDefault();
-    if (error === false) {
-      toast.success("Profile Created Successfully",{
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: true,
-      transition: Zoom
-    })} else {
-      toast.warn("Please Fill Up All Details",{
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: true,
-        transition: Zoom
-      })}
+    console.log("success")
+      delete logInData.confirmpassword; //remove confirmPassword from object
+      
+  }
+    try {
+      const response = await fetch(
+        "http://localhost:5000/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(logInData)
+        }
+        
+      );
+      
+      const parseRes = await response.json();
+      
+      console.log(parseRes)
+      if (parseRes.token) {
+        localStorage.setItem("token", parseRes.token);
+        setIsAuth(true);
+        toast.success("Profile Created Successfully",{
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: true,
+          transition: Zoom})
+        navigate("/createProfile")
+        return
+      } else {
+        setIsAuth(false);
+        
+      }
+    } catch (err) {
+      console.error(err.message);
+    }}
     // setProfileData((logInData))
      }
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleCreateProfile}>
         <div
           className="py-12 bg-transparent transition duration-150 ease-in-out z-10 absolute top-10 right-0 bottom-10 left-0"
           id="modal"
@@ -106,7 +154,8 @@ function Modal({ setShowModal, isSignUp }) {
                 placeholder="Password"
               />
 
-              {!isSignUp && (
+              {!isSignUp ? (
+                <>
                 <input
                   id="confirmpassword"
                   type="password"
@@ -116,13 +165,20 @@ function Modal({ setShowModal, isSignUp }) {
                   className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                   placeholder="Re-Enter Password"
                 />
-              )}
-             
-              <div className="flex items-center justify-start w-full">
+                <input
+                  id="name"
+                  type="name"
+                  required={true}
+                  name="name"
+                  onChange={(e) => setName(e.target.value)}
+                  className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
+                  placeholder="Name"
+                />
+                 <div className="flex items-center justify-start w-full">
                 <button
                   type="submit"
                   className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
-                  onSubmit={handleSubmit}
+                  onSubmit={handleCreateProfile}
                 >
                   Submit
                 </button>
@@ -133,6 +189,26 @@ function Modal({ setShowModal, isSignUp }) {
                   Cancel
                 </button>
               </div>
+                </>
+              ) :
+
+                (
+              <div className="flex items-center justify-start w-full">
+                <button
+                  type="submit"
+                  className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm"
+                  onSubmit={handleCreateProfile}
+                >
+                  Submit
+                </button>
+                <button
+                  className="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm"
+                  onClick={handleClick}
+                >
+                  Cancel
+                </button>
+              </div>
+              )}
               <button
                 className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
                 onClick={handleClick}
@@ -160,6 +236,7 @@ function Modal({ setShowModal, isSignUp }) {
           </div>
         </div>
       </form>
+      
     </div>
   );
 }

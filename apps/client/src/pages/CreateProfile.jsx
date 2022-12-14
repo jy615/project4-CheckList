@@ -61,7 +61,7 @@ function CreateProfile({isAuth}) {
     // setProfileData((logInData))
      }}
     
-    // navigate("/patientList")
+    //navigate("/patientList")
         
   
   return (
