@@ -1,6 +1,0 @@
-from django.apps import AppConfig
-
-
-class ChecklistappConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'checklistapp'

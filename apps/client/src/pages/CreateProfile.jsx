@@ -17,17 +17,18 @@ function CreateProfile({isAuth}) {
   //   getProfileData();
   // }, [])
 
- 
+  let _csrfToken = null;
   
   const handleClick = () => {
     navigate("/");
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     
     let formData = new FormData(e.target);
     let logInData = Object.fromEntries(formData.entries());
     console.log(logInData)
-     fetch("http://127.0.0.1:8000/api/users/", {
+    if (_csrfToken === null) {
+    await fetch("http://127.0.0.1:8000/api/users/", {
       method: "POST",
       headers: {
         "Accept":"application/json",
@@ -58,7 +59,7 @@ function CreateProfile({isAuth}) {
         transition: Zoom
       })}
     // setProfileData((logInData))
-     }
+     }}
     
     // navigate("/patientList")
         
