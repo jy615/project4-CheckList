@@ -29,7 +29,7 @@ function BasicCheckList() {
         <div className="px-10 py-20">
       <div className="container flex justify-evenly mx-auto">
           <label className="text-black-800 text-xl mt-6 font-extrabold container flex justify-evenly">
-            {mockdata.procedure}
+           Stress Test
           </label>
          
         </div>

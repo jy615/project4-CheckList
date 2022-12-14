@@ -4,13 +4,11 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 function EditRow({ contact, editFormData, handleEditFormChange, handleEditFormSubmit}) {
-  const [calenderdate, setCalenderDate] = useState();
-  const handleUpdatedData = (e) => {
-    e.preventDefault();
+const [date, setDate] = useState()
+  const handleUpdateData = () => {
   console.log("submitted")
 
   }
-  console.log(calenderdate);
   return (
 
     <tr>
@@ -30,11 +28,10 @@ function EditRow({ contact, editFormData, handleEditFormChange, handleEditFormSu
           yearDropdownItemNumber={10}
           scrollableYearDropdown
           dateFormat="dd/MM/yyyy"
-          selected={calenderdate}
+          selected={date}
           name="updateddate"
-          value={editFormData.date}
           required="required"
-          onChange={(e) => setCalenderDate(e)}
+          onChange={(date) => setDate(date)}
         />
       </td>
       <td>
@@ -76,6 +73,7 @@ function EditRow({ contact, editFormData, handleEditFormChange, handleEditFormSu
         <button
           type="submit"
           className="px-4 py-1 text-sm text-green-600 bg-green-200 rounded-full"
+          onClick={handleUpdateData}
         >
           Save
         </button>

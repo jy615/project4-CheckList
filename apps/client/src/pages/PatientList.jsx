@@ -5,13 +5,23 @@ import { useState, useEffect } from "react";
 import mockdata from "./data.json";
 import ReadRow from "../components/ReadRow";
 import EditRow from "../components/EditRow";
+import BasicCheckList from "../components/BasicCheckList";
 
 function PatientList({ isAuth }) {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState(mockdata);
   const [isTestChanged, setIsTestChanged] = useState(false);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
-  const [editContactId, setEditContactId] = useState(2)
+  const [editContactId, setEditContactId] = useState()
+  const [showCheckList, setShowCheckList] = useState(false)
+  const [allmockdata, setAllMockData] = useState(mockdata)
+
+
+  const handleShowchecklist = () => {
+    console.log("clicked!")
+    setShowCheckList(true)
+  }
+  
   const [name, setName] = useState("who");
   useEffect(() => {
     getProfile();
@@ -32,57 +42,57 @@ function PatientList({ isAuth }) {
       console.log("cant get profile");
     }
   };
-  // const [editFormData, setEditFormData] = useState({
-  //   id:"",
-  //   name: "",
-  //   ic: "",
-  //   date: "",
-  //   time: "",
-  //   procedere: "",
-  // });
-  // const handleEditFormChange = (event) => {
-  //   event.preventDefault();
-  //   const fieldName = event.target.getAttribute("name");
-  //   const fieldValue = event.target.value;
+  const [editFormData, setEditFormData] = useState({
+    id:"",
+    name: "",
+    ic: "",
+    date: "",
+    time: "",
+    procedere: "",
+  });
+  const handleEditFormChange = (event) => {
+    event.preventDefault();
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
     
-  //   const newFormData = { ...editFormData};
-  //   console.log(newFormData)
-  //   newFormData[fieldName] = fieldValue;
-  //   setEditFormData[newFormData];
-  // };
-  // const handleEditClick = (event, contact) => {
-  //   event.preventDefault();
-  //  setEditContactId(contact.id)
-  //   console.log(contact.id);
-  //   const formValues = {
-  //     date : contact.date,
-  //     time : contact.time,
-  //     procedure : contact.procedure,
-  //   };
-  //   setEditFormData(formValues);
-  // };
-  // const handleEditFormSubmit = (event, contact) => {
-  //   event.preventDefault();
-  //   const editedContact = {
-  //     id: contact.id,
-  //     name: contact.name,
-  //     ic: contact.ic,
-  //     date: editFormData.date,
-  //     time: editFormData.time,
-  //     procedure: editFormData.procedure,
-  //     procedureStatus: contact.procedureStatus
-  //   }
+    const newFormData = { ...editFormData};
+    console.log(newFormData)
+    newFormData[fieldName] = fieldValue;
+    setEditFormData[newFormData];
+  };
+  const handleEditClick = (event, contact) => {
+    event.preventDefault();
+   setEditContactId(contact.id)
+    console.log(contact.id);
+    const formValues = {
+      date : contact.date,
+      time : contact.time,
+      procedure : contact.procedure,
+    };
+    setEditFormData(formValues);
+  };
+  const handleEditFormSubmit = (event, contact) => {
+    event.preventDefault();
+    const editedContact = {
+      id: contact.id,
+      name: contact.name,
+      ic: contact.ic,
+      date: editFormData.date,
+      time: editFormData.time,
+      procedure: editFormData.procedure,
+      procedureStatus: contact.procedureStatus
+    }
   
-  // const newContacts = [...contacts];
-  // const index = contacts.findIndex((contact)=> contact.id === editFormData.id)
-  // newContacts[index] = editedContact
-  // setContacts(newContacts)
-  // console.log(newContacts)
+  const newContacts = [...contacts];
+  const index = contacts.findIndex((contact)=> contact.id === editFormData.id)
+  newContacts[index] = editedContact
+  setContacts(newContacts)
+  console.log(newContacts)
   
-  // }
-  // const handleCancelTest = () => {
-  //   console.log("test cancelled");
-  // };
+  }
+  const handleCancelTest = () => {
+    console.log("test cancelled");
+  };
 
   return (
     <>
@@ -90,7 +100,7 @@ function PatientList({ isAuth }) {
         <Nav isAuth={isAuth} />
       </div>
       <div className="flex justify-evenly flex-row text-grey-500 text-2xl font-bold">
-        <p>Hello {name}, Today's Appointment</p>
+        <p>Hello There, Today's Appointment</p>
       </div>
 
       <form onSubmit={handleEditFormSubmit}>
@@ -117,6 +127,9 @@ function PatientList({ isAuth }) {
                       <th className="px-6 py-2 text-xs text-gray-500">
                         Action
                       </th>
+                      <th className="px-6 py-2 text-xs text-gray-500">
+                        Delete
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white">
@@ -130,7 +143,7 @@ function PatientList({ isAuth }) {
                             handleEditFormSubmit={handleEditFormSubmit}
                           />
                         ) : (
-                          <ReadRow contact={contact} handleEditClick={handleEditClick} />
+                          <ReadRow contact={contact} contacts={contacts} handleEditClick={handleEditClick} handleShowchecklist={handleShowchecklist}/>
                         )}
                       </>
                     ))}
@@ -140,7 +153,9 @@ function PatientList({ isAuth }) {
             </div>
           </div>
         </div>
+                    
       </form>
+      {showCheckList && <BasicCheckList setShowCheckList={setShowCheckList} showCheckList={showCheckList}/> }
     </>
   );
 }

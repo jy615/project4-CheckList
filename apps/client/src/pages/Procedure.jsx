@@ -55,9 +55,6 @@ function Procedure({isAuth}) {
 
                         </tr>
                     </thead>
-                   {allmockdata.map((contact => (
-                    <PersonalProcedure contact={contact} handleShowchecklist={handleShowchecklist}/>
-                   )))}
                    
                         </table>
                         </div>

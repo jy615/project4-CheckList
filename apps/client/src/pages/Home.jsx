@@ -7,10 +7,26 @@ import { useNavigate } from 'react-router-dom'
 function Home() {
   const [showModal, setShowModal] = useState(false)
   const [isAuth, setIsAuth] = useState(false)
-  //const [isSignUp, setIsSignUp] = useState(false)
   const navigate = useNavigate()
   const [isSignUp, setIsSignUp] = useState(false)
 
+  // const checkAuth = async() => {
+  //   try {
+  //     const res = await fetch("http://localhost:5000/auth/verify", {
+  //       method: "GET",
+  //       headers: { token: localStorage.token }
+  //     });
+
+  //     const parseRes = await res.json();
+
+  //     parseRes === true ? setIsAuth(true) : setIsAuth(false);
+  //   } catch (err) {
+  //     console.error("Something Wrong");
+  //   }
+  // };
+  // useEffect(()=> {
+  //   checkAuth()
+  // }, [])
   
   const handleClick = () => {
     console.log("click")

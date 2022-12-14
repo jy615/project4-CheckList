@@ -3,7 +3,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route} from "react-router-dom"
 import PatientList from './pages/patientList'
 import CreateProfile from './pages/CreateProfile'
-import Procedure from './pages/Procedure'
+import LogIn from './components/LogIn.jsx'
 import Home from './pages/Home'
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <Route path={"/"} element={<Home />}/>
       <Route path={"/createProfile"} element={<CreateProfile />}/>
       <Route path={"/patientList"} element={<PatientList />}/>
-      <Route path={"/procedure"} element={<Procedure />}/>
+      <Route path={"/login"} element={<LogIn />}/>
     </Routes>
     </BrowserRouter>
   )

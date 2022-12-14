@@ -12,10 +12,30 @@ function CreateProfile({isAuth}) {
   const [date, setDate] = useState(new Date());
   const [error, setError] = useState(false)
   const [profileData, setProfileData] = useState([])
+  const [name, setName] = useState()
   const navigate = useNavigate();
   // useEffect(()=> {
   //   getProfileData();
   // }, [])
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  const getProfile = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/patientList/", {
+        method: "GET",
+        headers: { token: localStorage.token }
+      });
+
+      const parseData = await res.json();
+      console.log(parseData)
+      setName(parseData.user_name);
+      setIsAuth(true)
+    } catch (error) {
+      console.log("Something Wrong");
+    }
+  };
 
   let _csrfToken = null;
   
@@ -107,7 +127,7 @@ function CreateProfile({isAuth}) {
           required={true}
           name="UserFirstName"
           className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-          placeholder="James Bond"
+          placeholder={name}
         />
        
         <label
