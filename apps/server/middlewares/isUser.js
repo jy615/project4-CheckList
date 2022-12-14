@@ -3,7 +3,7 @@ const isUser = (req, res, next) => {
     const {email, name, password} = req.body
     if (req.path === "/register") {
         if (![email, name, password].every(Boolean)){
-            return res.json("Details Not Right")
+            return res.json("Missing Credentials")
 
         } else if (req.path === "/login"){
             if (![email, password].every(Boolean)){

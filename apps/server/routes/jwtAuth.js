@@ -29,19 +29,21 @@ router.post("/register", isUser, async (req, res) => {
     //3. if no -> bcrypt password
     const bcryptPassword = await bcrypt.hash(password, bcrypt.genSaltSync(saltRounds));
     //4. added new user into database
-    await pool.query(
+    const newUser = await pool.query(
       "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
       [name, email, bcryptPassword]
     );
-    }
+    
     //5. generate jwt token
-    const token = jwtGenerator(user.rows[0].user_id);
+    const token = jwtGenerator(newUser.rows[0].user_id);
 
     return res.json({ token });
+    }
   } catch (err) {
     console.error(err.message);
     return res.status(500).json("Server error");
   }
+
 });
 router.post("/login", isUser, async (req, res) => {
   //1. destructure data
@@ -58,7 +60,7 @@ router.post("/login", isUser, async (req, res) => {
       return res.status(401).json("Invalid Log In");
     }
 //3. check password match
-    const passwordMatch = bcrypt.compareSync(
+    const passwordMatch = await bcrypt.compareSync(
       password,
       user.rows[0].user_password
     );
