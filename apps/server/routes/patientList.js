@@ -84,7 +84,7 @@ router.put("/procedure/:id", async (req, res)=> {
 })
 
 // delete patient procedure
-router.delete("/patient/:id", async (req, res)=> {
+router.delete("/delete/:id", async (req, res)=> {
     try {
         const {id} = req.params;
         const deletePatient = await pool.query('DELETE FROM procedure WHERE id = $1',[id])

@@ -48,3 +48,52 @@ FROM patient
 INNER JOIN procedure
 ON (procedure_id = id)
 
+CREATE TABLE public.patient (
+    id integer NOT NULL,
+    patient_name character varying(255) NOT NULL,
+    patient_ic character varying(255) NOT NULL,
+    patient_date character varying(255) NOT NULL,
+    patient_time character varying(255) NOT NULL,
+    patient_status character varying(255),
+    patient_procedure character varying(255),
+    procedure_id integer
+);
+
+CREATE SEQUENCE public.patient_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+DROP SEQUENCE public.patient_id_seq;
+
+CREATE TABLE public.procedure (
+    id integer NOT NULL,
+    procedure_name character varying(255) NOT NULL
+);
+
+CREATE SEQUENCE public.procedure_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    user_name character varying(255),
+    user_email character varying(255) NOT NULL,
+    user_password character varying(255) NOT NULL,
+    user_dob character varying(255),
+    user_specialty character varying(255)
+);
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
