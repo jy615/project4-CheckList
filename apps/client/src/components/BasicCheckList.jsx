@@ -4,7 +4,7 @@ import mockdata from "../pages/data.json"
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function BasicCheckList() {
+function BasicCheckList({contact, contacts}) {
   const [isExerciseTest, setIsExerciseTest] = useState(false);
   const [isDobutamineTest, setIsDobutamineTest] = useState(true);
   
@@ -29,7 +29,7 @@ function BasicCheckList() {
         <div className="px-10 py-20">
       <div className="container flex justify-evenly mx-auto">
           <label className="text-black-800 text-xl mt-6 font-extrabold container flex justify-evenly">
-           Stress Test
+           {contact.procedure}
           </label>
          
         </div>

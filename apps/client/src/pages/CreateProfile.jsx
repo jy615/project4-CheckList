@@ -3,12 +3,13 @@ import React from "react";
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 
-
+//DO NOT TOUCH
 
 function CreateProfile({isAuth}) {
+  const {id} = useParams()
   const [date, setDate] = useState(new Date());
   const [error, setError] = useState(false)
   const [profileData, setProfileData] = useState([])
@@ -20,66 +21,83 @@ function CreateProfile({isAuth}) {
   useEffect(() => {
     getProfile();
   }, []);
+const handleSubmit =() =>{
+  console.log("click")
+}
 
+  
   const getProfile = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/patientList/", {
-        method: "GET",
-        headers: { token: localStorage.token }
-      });
-
-      const parseData = await res.json();
-      console.log(parseData)
-      setName(parseData.user_name);
-      setIsAuth(true)
-    } catch (error) {
-      console.log("Something Wrong");
+    
+    let headers = {}
+    if (localStorage.token) {
+        headers = { 'Authorization': localStorage.token }
+        console.log(headers)
     }
-  };
+    fetch(`http://localhost:5000/auth/get/user/${id}`, { headers: headers })
+        .then((res) => {
+          console.log(res.status)
+            if (res.status == 200) {
+                return res.json()
+               
+            } else {
+                console.log("Headers Not Inserted")
+                return
+            }
+           
+        }).then((data)=> {
+          setProfileData(data)
+          console.log(data)
+        })
+        .catch((err)=> {
+          console.log(err.message)
+        })
+    }
+    
+  
 
-  let _csrfToken = null;
+  
   
   const handleClick = () => {
     navigate("/");
   };
-  const handleSubmit = async (e) => {
+  // const handleSubmit = async (e) => {
     
-    let formData = new FormData(e.target);
-    let logInData = Object.fromEntries(formData.entries());
-    console.log(logInData)
-    if (_csrfToken === null) {
-    await fetch("http://127.0.0.1:8000/api/users/", {
-      method: "POST",
-      headers: {
-        "Accept":"application/json",
-        "Content-type": "application/json" 
-    },
-    body: JSON.stringify(logInData)})
+  //   let formData = new FormData(e.target);
+  //   let logInData = Object.fromEntries(formData.entries());
+  //   console.log(logInData)
+  //   if (_csrfToken === null) {
+  //   await fetch("http://127.0.0.1:8000/api/users/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Accept":"application/json",
+  //       "Content-type": "application/json" 
+  //   },
+  //   body: JSON.stringify(logInData)})
     
-    .then((response)=> {
-      return response.json();
-    setError(false) 
-    }).catch((error) => {
-      setError(true)
-            if (error.response) {
-              console.log(error.response);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-              }})
-    e.preventDefault();
-    if (error === false) {
-      toast.success("Profile Created Successfully",{
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: true,
-      transition: Zoom
-    })} else {
-      toast.warn("Please Fill Up All Details",{
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: true,
-        transition: Zoom
-      })}
-    // setProfileData((logInData))
-     }}
+  //   .then((response)=> {
+  //     return response.json();
+  //   setError(false) 
+  //   }).catch((error) => {
+  //     setError(true)
+  //           if (error.response) {
+  //             console.log(error.response);
+  //             console.log(error.response.status);
+  //             console.log(error.response.headers);
+  //             }})
+  //   e.preventDefault();
+  //   if (error === false) {
+  //     toast.success("Profile Created Successfully",{
+  //     position: toast.POSITION.TOP_CENTER,
+  //     autoClose: true,
+  //     transition: Zoom
+  //   })} else {
+  //     toast.warn("Please Fill Up All Details",{
+  //       position: toast.POSITION.TOP_CENTER,
+  //       autoClose: true,
+  //       transition: Zoom
+  //     })}
+  //   // setProfileData((logInData))
+  //    }}
     
     //navigate("/patientList")
         
@@ -87,6 +105,8 @@ function CreateProfile({isAuth}) {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+      
+        
       <div
           className="py-12 bg-transparent transition duration-150 ease-in-out z-10 absolute top-10 right-0 bottom-10 left-0"
           id="modal"
@@ -111,7 +131,7 @@ function CreateProfile({isAuth}) {
             />
           </svg>
           <h1 className="justify-center text-4xl text-gray-800 font-lg font-bold tracking-normal leading-tight mb-4">
-            Create Profile
+            Create Profile 
           </h1>
         </div>
 
@@ -121,15 +141,18 @@ function CreateProfile({isAuth}) {
         >
           Name
         </label>
+       
+        
+       
         <input
           id="firstname"
           type="text"
           required={true}
           name="UserFirstName"
           className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
-          placeholder={name}
+          placeholder=""
         />
-       
+      
         <label
           htmlFor="dateofbirth"
           className="text-gray-800 text-xl font-bold leading-tight tracking-normal"
@@ -270,8 +293,11 @@ function CreateProfile({isAuth}) {
                 </button>
                 <ToastContainer /> 
         </div>
+        
         </div>
+        
         </div>
+        
       </form>
     </div>
   );

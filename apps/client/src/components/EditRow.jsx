@@ -9,9 +9,12 @@ const [date, setDate] = useState()
   console.log("submitted")
 
   }
+
+  
   return (
 
     <tr>
+      
       <td className="px-6 py-4 text-sm text-gray-500">{contact.id}</td>
       <td className="px-6 py-4 text-sm text-gray-500">{contact.name}</td>
       <td className="px-6 py-4">
@@ -78,6 +81,7 @@ const [date, setDate] = useState()
           Save
         </button>
       </td>
+     
     </tr>
    
   );

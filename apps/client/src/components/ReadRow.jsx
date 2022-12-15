@@ -2,7 +2,7 @@ import React from "react";
 import {useNavigate} from "react-router-dom"
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-function ReadRow({ contacts, contact, handleEditClick, handleShowchecklist }) {
+function ReadRow({ name, editFormData, contacts, contact, handleEditClick, handleShowchecklist }) {
 const navigate = useNavigate()
 const handleDelete = (id) => {
   const index = contacts.map(function(e){
@@ -11,6 +11,9 @@ const handleDelete = (id) => {
   contacts.splice(index, 1)
   navigate("/patientList")
 }
+
+    
+
   const handleRow = () => {
     console.log("clicked");
     navigate("/procedure");
@@ -21,19 +24,19 @@ const handleDelete = (id) => {
     //   onClick={handleRow}
     >
       <td className="px-6 py-4 text-sm text-gray-500">{contact.id}</td>
-      <td className="px-6 py-4 text-sm text-gray-500">{contact.name}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.patient_name}</td>
       <td className="px-6 py-4">
-        <div className="text-sm text-gray-500">{contact.ic}</div>
+        <div className="text-sm text-gray-500">{contact.patient_ic}</div>
       </td>
       <td className="px-6 py-4">
-        <div className="text-sm text-gray-500">{contact.date}</div>
+        <div className="text-sm text-gray-500">{contact.patient_date}</div>
       </td>
-      <td className="px-6 py-4 text-sm text-gray-500">{contact.time}</td>
-      <td className="px-6 py-4 text-sm text-gray-500">{contact.procedure}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.patient_time}</td>
+      <td className="px-6 py-4 text-sm text-gray-500">{contact.patient_procedure}</td>
       <td className="px-6 py-4 text-sm text-gray-500">
-        {contact.procedureStatus}
+        {contact.patient_status}
       </td>
-      {contact.procedureStatus === "" ?
+      
        <td className="px-6 py-4">
 
        <button
@@ -43,19 +46,32 @@ const handleDelete = (id) => {
        >
          Start
        </button>
-     </td> :
+     </td> 
      
-        <td className="px-6 py-4">
+        {/* <td className="px-6 py-4">
 
         <button
         type= "button"
-          className="px-4 py-1 text-sm text-yellow-600 bg-yellow-200 rounded-full"
+          className="px-4 py-1 text-sm text-green-600 bg-green-200 rounded-full"
           onClick={(event)=> handleEditClick(event, contact)}
         >
-          Update
+          Completed
         </button>
-      </td>
-     }
+      </td> */}
+     
+      <td className="px-6 py-4">
+
+<button
+type= "button"
+  className="px-4 py-1 text-sm text-black-600 bg-black-200 rounded-full"
+  onClick={(event)=> handleEditClick(event, contact)}
+>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+</svg>
+
+</button>
+</td>
        <td className="px-6 py-4">
 
 <button
@@ -69,9 +85,10 @@ type= "button"
 
 </button>
 </td> 
-      
-      
-      
+
+      <td>
+      </td>
+
     </tr>
   );
 }

@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams,  } from "react-router-dom";
 import { ToastContainer, toast, Zoom } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
   const [name, setName] = useState("");
+  const {id} = useParams()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
@@ -18,7 +20,7 @@ function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
   const handleClick = () => {
     setShowModal(false);
   };
-  
+  // DO NOT TOUCH
   const handleCreateProfile = async (e) => {
     e.preventDefault();
     console.log("using create button")
@@ -26,7 +28,15 @@ function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
     let logInData = Object.fromEntries(formData.entries());
     console.log(logInData)
     
-  
+    if (password !== confirmpassword ) {
+      toast.warn("Password Does Not Match")
+      console.log("password not match")
+      return
+    } else if (email === "" | password === "" | confirmpassword === "" | name === "") {
+      toast.warn("Please Fill Up The Details")
+      console.log("details not match")
+      return
+    } else {
     try {
       const response = await fetch(
         "http://localhost:5000/auth/register",
@@ -39,19 +49,26 @@ function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
         }
       );
       const parseRes = await response.json();
-        console.log(logInData)
+      if (response.status === 401) {
+        toast.warn("User already exist")
+      }
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token);
-        toast.success("Profile Created Successfully")
-                navigate("/createProfile")
+        setIsAuth(true);
+        toast.success("Profile Created Successfully",{
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: true,
+          transition: Zoom
+        })
+        navigate("/createProfile/")
       } else {
         setIsAuth(false);
       }
     } catch (err) {
       console.error(err.message);
     }
+  }
   };
-    
   
     // setProfileData((logInData))
      
@@ -184,7 +201,7 @@ function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
           </div>
         </div>
       </form>
-      
+      <ToastContainer /> 
     </div>
   );
 }

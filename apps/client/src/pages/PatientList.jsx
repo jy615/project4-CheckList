@@ -7,36 +7,37 @@ import ReadRow from "../components/ReadRow";
 import EditRow from "../components/EditRow";
 import BasicCheckList from "../components/BasicCheckList";
 
-function PatientList({ isAuth }) {
+function PatientList({ isAuth, contact}) {
   const navigate = useNavigate();
-  const [contacts, setContacts] = useState(mockdata);
-  const [isTestChanged, setIsTestChanged] = useState(false);
+  const [contacts, setContacts] = useState();
+  const [isUpdate, setIsUpdate] = useState(contact);
   const [isTestCompleted, setIsTestCompleted] = useState(false);
   const [editContactId, setEditContactId] = useState()
   const [showCheckList, setShowCheckList] = useState(false)
-  const [allmockdata, setAllMockData] = useState(mockdata)
+  const [name, setName] = useState();
+
 
 
   const handleShowchecklist = () => {
-    console.log("clicked!")
+   
     setShowCheckList(true)
+    console.log("clicked!")
   }
   
-  const [name, setName] = useState("who");
   useEffect(() => {
     getProfile();
   }, []);
 
   const getProfile = async () => {
     try {
-      const res = await fetch("http://localhost:5000/patientList/", {
+      const res = await fetch("http://localhost:5000/patient/get", {
         method: "GET",
         headers: { token: localStorage.token }
       });
 
       const parseData = await res.json();
       console.log(parseData)
-      setName(parseData.user_name);
+      setContacts(parseData);
       setIsAuth(true)
     } catch (error) {
       console.log("cant get profile");
@@ -60,10 +61,28 @@ function PatientList({ isAuth }) {
     newFormData[fieldName] = fieldValue;
     setEditFormData[newFormData];
   };
-  const handleEditClick = (event, contact) => {
+  const handleEditClick = async(contact) => {
+    let formData = new FormData(e.target);
+    let logInData = Object.fromEntries(formData.entries());
+    console.log(logInData)
     event.preventDefault();
-   setEditContactId(contact.id)
-    console.log(contact.id);
+    try {
+      const response = await fetch(
+        "http://localhost:5000/patient/get/3",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(logInData)
+          
+        }
+      );   
+    } catch (err) {
+      console.error(err.message);
+    
+  };
+
+    setEditContactId(contact.id)
+    console.log(contact);
     const formValues = {
       date : contact.date,
       time : contact.time,
@@ -100,10 +119,10 @@ function PatientList({ isAuth }) {
         <Nav isAuth={isAuth} />
       </div>
       <div className="flex justify-evenly flex-row text-grey-500 text-2xl font-bold">
-        <p>Hello There, Today's Appointment</p>
+        <p>Hello There, Today's Appointment hello {name}</p>
       </div>
 
-      <form onSubmit={handleEditFormSubmit}>
+      <form>
         <div className="container flex justify-evenly mx-auto">
           <div className="flex flex-col">
             <div className="w-full">
@@ -128,12 +147,15 @@ function PatientList({ isAuth }) {
                         Action
                       </th>
                       <th className="px-6 py-2 text-xs text-gray-500">
+                        Update
+                      </th>
+                      <th className="px-6 py-2 text-xs text-gray-500">
                         Delete
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white">
-                    {contacts.map((contact) => (
+                    {contacts && contacts.map((contact) => (
                       <>
                         {editContactId === contact.id ? (
                           <EditRow
@@ -143,7 +165,10 @@ function PatientList({ isAuth }) {
                             handleEditFormSubmit={handleEditFormSubmit}
                           />
                         ) : (
+                          <>
                           <ReadRow contact={contact} contacts={contacts} handleEditClick={handleEditClick} handleShowchecklist={handleShowchecklist}/>
+                          <BasicCheckList contact={contact} contacts={contacts} setShowCheckList={setShowCheckList} showCheckList={showCheckList}/> 
+                        </>
                         )}
                       </>
                     ))}
@@ -155,7 +180,7 @@ function PatientList({ isAuth }) {
         </div>
                     
       </form>
-      {showCheckList && <BasicCheckList setShowCheckList={setShowCheckList} showCheckList={showCheckList}/> }
+     
     </>
   );
 }
