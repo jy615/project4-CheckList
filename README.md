@@ -1,5 +1,5 @@
 # :pencil2: :page_facing_up: CheckList
-CheckList is an user-friendly app where users can create profile, log in and do checklist for patient before a procedure starts
+CheckList is an user-friendly app where users can create profile, log in and make a checklist for patient before a procedure starts
 
 ## Motivation
 Loss of paper records which leads to data breach are often heard in hospital. Paper-based records, rather than electronic records, 
