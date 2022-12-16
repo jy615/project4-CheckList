@@ -16,3 +16,24 @@ As a user, I would like to:
 5. Update date, time or procedure if patient is unfit 
 6. Delete patient list if patient is not for the procedure
 
+## Flowchart
+
+## Wireframe
+
+## Technologies used
+Frontend
+1. React.js
+2. Tailwind.css
+3. DatePicker
+4. axios
+5. Toastify
+
+Backend
+1. Postgresql
+2. jsonwebtoken
+3. Express
+4. Node.js
+5. Postman
+
+## Screenshots
+
