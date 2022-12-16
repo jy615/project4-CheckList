@@ -37,3 +37,7 @@ Backend
 
 ## Screenshots
 
+## Improvements
+- A customized checklist for other purposes such as training competency
+- Specific role with different checklist for a patient
+
