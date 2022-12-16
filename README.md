@@ -12,8 +12,8 @@ As a user, I would like to:
 1. Create account and profile
 2. Log In
 3. Read the patient list overview
-4. Do a checklist for the patient
-5. Update date, time or procedure if patient is unfit 
+4. Update date, time or procedure if patient is unfit 
+5. Do a checklist for the patient
 6. Delete patient list if patient is not for the procedure
 
 ## Wireframe
