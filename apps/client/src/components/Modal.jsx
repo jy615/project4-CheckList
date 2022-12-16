@@ -1,8 +1,10 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate, useParams,  } from "react-router-dom";
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { api } from "../constant";
 
 
 
@@ -26,7 +28,6 @@ function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
     console.log("using create button")
     let formData = new FormData(e.target);
     let logInData = Object.fromEntries(formData.entries());
-    console.log(logInData)
     
     if (password !== confirmpassword ) {
       toast.warn("Password Does Not Match")
@@ -38,29 +39,20 @@ function Modal({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
       return
     } else {
     try {
-      const response = await fetch(
-        "http://localhost:5000/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify(logInData)
-        }
-      );
-      const parseRes = await response.json();
-      if (response.status === 401) {
+      const response= await axios.post(`${api}/auth/register`,logInData);
+      console.log(response.data)
+      if (response.data.status === 401) {
         toast.warn("User already exist")
       }
-      if (parseRes.token) {
-        localStorage.setItem("token", parseRes.token);
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        navigate(`/createProfile/${response.data.id}`)
         setIsAuth(true);
         toast.success("Profile Created Successfully",{
           position: toast.POSITION.TOP_CENTER,
           autoClose: true,
           transition: Zoom
         })
-        navigate("/createProfile/")
       } else {
         setIsAuth(false);
       }

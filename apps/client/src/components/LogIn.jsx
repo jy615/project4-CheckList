@@ -1,11 +1,11 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast, Zoom } from 'react-toastify';
+import { ToastContainer, toast, Zoom } from "react-toastify";
+import { api } from "../constant";
 
-
-
-function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
+function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,43 +18,33 @@ function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
   const handleClick = () => {
     setShowModal(false);
   };
-  
-  
-    
+
   const handleLogInProfile = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:5000/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify(logInData)
-        }
-      );
-
-      const parseRes = await response.json();
-        console.log(parseRes)
-      if (parseRes.token) {
-        localStorage.setItem("token", parseRes.token);
+      const response = await axios.post(`${api}/auth/login`, {
+        email,
+        password,
+      });
+      console.log(response);
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        navigate("/patientList");
         setIsAuth(true);
         toast.success("Logged in Successfully");
-        navigate("/patientList")
       } else {
         setIsAuth(false);
       }
     } catch (error) {
-      console.error("Server Error");
+      console.error(error.message);
     }
   };
-  
-    // setProfileData((logInData))
-     
+
+  // setProfileData((logInData))
+
   return (
     <div>
-      <form onSubmit={handleLogInProfile}>
+      <form onSubmit={handleLogInProfile} method="post">
         <div
           className="py-12 bg-transparent transition duration-150 ease-in-out z-10 absolute top-10 right-0 bottom-10 left-0"
           id="modal"
@@ -93,7 +83,6 @@ function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
                 className="mb-5 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border"
                 placeholder="Enter Email"
               />
-             
 
               <input
                 id="password"
@@ -105,9 +94,7 @@ function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
                 placeholder="Password"
               />
 
-              
               <div className=" flex items-center justify-start w-full">
-                
                 <button
                   className="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 ml-3 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm"
                   onClick={handleLogInProfile}
@@ -115,7 +102,7 @@ function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
                   Log In
                 </button>
               </div>
-              
+
               <button
                 className="cursor-pointer absolute top-0 right-0 mt-4 mr-5 text-gray-400 hover:text-gray-600 transition duration-150 ease-in-out rounded focus:ring-2 focus:outline-none focus:ring-gray-600"
                 onClick={handleClick}
@@ -143,7 +130,6 @@ function LogIn({ setShowModal, isAuth, setIsAuth, isSignUp, setIsSignUp}) {
           </div>
         </div>
       </form>
-      
     </div>
   );
 }

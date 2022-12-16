@@ -6,10 +6,13 @@ const path = require("path");
 const pool = require("./db");
 //* dotenv
 const dotenv = require("dotenv");
+const morgan = require("morgan");
 require("dotenv").config();
 
 //* middleware
 app.use(cors());
+app.use(morgan("dev"));
+
 // app.use(function (req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*"); // update to match
 //   // the domain you will make the request from
@@ -39,6 +42,6 @@ app.get("/get/user/:id", async (req, res) => {
 app.use("/patient", require("./routes/patientList"));
 app.use("/auth", require("./routes/authJwt"));
 
-app.listen(5000, () => {
-  console.log("server is runnning on port 5000");
+app.listen(8080, () => {
+  console.log("server is runnning on port 8080");
 });

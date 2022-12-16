@@ -27,9 +27,8 @@ router.get("/", isToken, async (req, res) => {
 // get all patients
 router.get("/get", isToken, async (req, res) => {
   try {
-    const getPatient = await pool.query(
-      "SELECT * FROM patient INNER JOIN procedure ON (patient.procedure_id = procedure.id)"
-    );
+    const getPatient = await pool.query("SELECT * FROM patient ");
+    // console.log(getPatient.rows);
     return res.json(getPatient.rows);
   } catch (error) {
     // console.log("error");
@@ -68,21 +67,44 @@ router.get("/get/:id", isToken, async (req, res) => {
 router.put("/update/:id", isToken, async (req, res) => {
   try {
     const { id } = req.params;
-    const {
-      patient_name,
-      patient_ic,
-      patient_date,
-      patient_time,
-      patient_status,
-      procedure_id,
-    } = req.body;
+    // const { procedere, patient_ic, date, times, procedure_id } = req.body;
+    const procedure_status = req.body.procedure_status || "";
+    const procedere = req.body.procedere || "";
+    const date = req.body.date || "";
+    const times = req.body.times || "";
+    console.log(req.body);
+
+    let yourDate = new Date(date);
+
+    let newDate = yourDate.toISOString().split("T")[0];
     const updatePatient = await pool.query(
-      "UPDATE patient SET patient_date = $1, patient_time = $2 WHERE id = $3",
-      [patient_date, patient_time, id]
+      "UPDATE patient SET patient_date = $1, patient_time = $2, patient_procedure = $3,patient_status =$4 WHERE id = $5",
+      [newDate, times, procedere, procedure_status, id]
     );
 
     res.json("Patient updated");
   } catch (err) {
+    // console.log(err);
+    return res.status(500).json("Server Error");
+  }
+});
+router.put("/updateProcedure/:id", isToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    // const procedureStatus = req.body.procedure_status;
+    // // console.log(procedureStatus);
+    console.log(req.body);
+    const { procedureStatus } = req.body;
+    // console.log(procedureStatus);
+
+    const updatePatient = await pool.query(
+      "UPDATE patient SET patient_status =$1 WHERE id = $2",
+      [procedureStatus, id]
+    );
+
+    res.json("Patient updated");
+  } catch (err) {
+    // console.log(err);
     return res.status(500).json("Server Error");
   }
 });
