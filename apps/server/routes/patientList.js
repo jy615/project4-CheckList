@@ -15,13 +15,11 @@ router.get("/", isToken, async (req, res) => {
   try {
     //req.user return uuid
     // console.log(req.user);
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [
-      req.user,
-    ]);
+    const user = await pool.query("SELECT * FROM patient");
     // console.log(user.rows[0]);
-    return res.status(200).json(user.rows[0]);
+    return res.status(200).json(user.rows);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return res.status(500).json("Server Error");
   }
 });
@@ -29,10 +27,13 @@ router.get("/", isToken, async (req, res) => {
 // get all patients
 router.get("/get", isToken, async (req, res) => {
   try {
-    const getPatient = await pool.query("SELECT * FROM patient");
+    const getPatient = await pool.query(
+      "SELECT * FROM patient INNER JOIN procedure ON (patient.procedure_id = procedure.id)"
+    );
     return res.json(getPatient.rows);
   } catch (error) {
-    console.log("error");
+    // console.log("error");
+    return res.status(500).json("Server Error");
   }
 });
 
@@ -105,11 +106,12 @@ router.get("/procedure/get", isToken, async (req, res) => {
     const getProcedure = await pool.query("SELECT * FROM procedure");
     return res.json(getProcedure.rows);
   } catch (error) {
-    console.log("error");
+    // console.log("error");
+    return res.status(500).json("Server Error");
   }
 });
 // update patient procedure
-router.put("/procedure/update/:id", async (req, res) => {
+router.put("/procedure/update/:id", isToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { procedure_name } = req.body;
@@ -123,7 +125,7 @@ router.put("/procedure/update/:id", async (req, res) => {
 });
 
 // delete patient procedure
-router.delete("/procedure/delete/:id", async (req, res) => {
+router.delete("/procedure/delete/:id", isToken, async (req, res) => {
   try {
     const { id } = req.params;
     const deletePatient = await pool.query(

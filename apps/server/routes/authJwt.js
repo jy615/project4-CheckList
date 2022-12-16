@@ -30,10 +30,14 @@ router.post("/register", async (req, res) => {
       "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
       [name, email, bcryptPassword]
     );
+    // console.log(newUser.rows);
 
     const token = jwtGenerator(newUser.rows[0].user_id);
 
-    return res.json({ token });
+    const { id, user_name } = newUser.rows[0];
+    // console.log(id, user_name);
+
+    return res.json({ id, user_name, token });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -44,13 +48,14 @@ router.post("/createProflie", async (req, res) => {
   try {
     const { id, name, dob, speciality } = req.body;
 
-    console.log(req.body);
+    // console.log(req.body);
     const user = await pool.query(
-      "UPDATE users SET user_name = $1, user_dob = $2, user_speciality = $3 WHERE id = $4",
+      "UPDATE users SET user_name = $1, user_dob = $2, user_specialty = $3 WHERE id = $4",
       [name, dob, speciality, id]
     );
     res.json({ msg: "User created" });
   } catch (error) {
+    // console.log(error);
     res.status(500).send("Server error");
   }
 });
