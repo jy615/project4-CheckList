@@ -16,7 +16,6 @@ As a user, I would like to:
 5. Do a checklist for the patient
 6. Delete patient list if patient is not for the procedure
 
-## Wireframe
 
 ## Technologies used
 Frontend
